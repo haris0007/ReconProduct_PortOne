@@ -85,11 +85,7 @@ Jun 8, 2025 10:23:05 PM PDT,18174059732,Order,1211455071067537800,13Z2Q8JWG710,,
 {
   "message": "Uploaded 120 records.",
   "preview": [
-    {
-      "order id": "1211455071067537800",
-      "date/time": "Jun 8, 2025 10:23:05 PM PDT",
-      "total": "7.81"
-    }
+      ...first 5 rows...
   ]
 }
 ```
@@ -117,11 +113,7 @@ settlement-id	settlement-start-date	settlement-end-date	deposit-date	total-amoun
 {
   "message": "Uploaded 100 records.",
   "preview": [
-    {
-      "order-id": "1211397397571528200",
-      "posted-date-time": "2025-06-09 05:23:19 UTC",
-      "amount": "14.9"
-    }
+        ...first 5 rows...
   ]
 }
 ```
@@ -144,7 +136,8 @@ Triggers reconciliation between Payments and Settlements based on `order_id`.
       "settlement_total": 14.9,
       "amount_difference": 0,
       "status": "reconciled"
-    }
+    },
+    ...first 10 rows...
   ]
 }
 ```
