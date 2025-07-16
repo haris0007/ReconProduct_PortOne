@@ -1,4 +1,4 @@
-# 📦 PortOne Reconciliation API
+# 🪙 PortOne Reconciliation API
 This is a high-performance CSV reconciliation server built with **Node.js**, **Express**, and **PostgreSQL**. It supports uploading large CSV/TSV datasets (Payments and Settlements), stores them efficiently using **COPY streams**, provides data sample after ingestion (preview), reconciles them by matching `order_id`s, and allows exporting the result as a downloadable CSV.
 
 ---
