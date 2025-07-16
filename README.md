@@ -1,6 +1,19 @@
 # 📦 PortOne Reconciliation API
 This is a high-performance CSV reconciliation server built with **Node.js**, **Express**, and **PostgreSQL**. It supports uploading large CSV/TSV datasets (Payments and Settlements), stores them efficiently using **COPY streams**, provides data sample after ingestion (preview), reconciles them by matching `order_id`s, and allows exporting the result as a downloadable CSV.
 
+---
+
+## 🔗 API Endpoints
+
+| Method | Endpoint              | Description                            |
+|--------|------------------------|----------------------------------------|
+| POST   | `/upload-payment`      | Upload a payments CSV file             |
+| POST   | `/upload-settlement`   | Upload a settlements TSV file          |
+| GET    | `/reconcile?limit=n`   | Reconcile records based on order_id    |
+| GET    | `/export-report?limit=n` | Export the reconciled CSV report     |
+
+---
+
 ## 🚀 Features
 - Upload CSV (Payments) or TSV (Settlements) files  
 - Efficient parsing using `csv-parser` + `pg-copy-streams`  
@@ -9,11 +22,15 @@ This is a high-performance CSV reconciliation server built with **Node.js**, **E
 - Outputs reconciliation summary  
 - Exports the final report directly as downloadable CSV
 
+---
+
 ## 📥 Clone the Repository
 ```bash
 git clone https://github.com/haris0007/ReconProduct_PortOne.git
 cd ReconProduct_PortOne
 ```
+
+---
 
 ## 📦 Installation
 ```bash
@@ -28,10 +45,14 @@ PWD=your_secure_password
 ```
 > ⚠️ **Do not share your `.env` values publicly.** This file must remain private.
 
+---
+
 ## ▶️ Run the Server
 ```bash
 npm run dev
 ```
+
+---
 
 ## 🛠 Schema Definitions
 
@@ -46,6 +67,8 @@ Stores all uploaded payment and settlement entries.
 | `total_amount` | NUMERIC   | Total amount                                  |
 | `raw_data`     | JSONB     | Full original row stored for reference        |
 
+---
+
 ### Table: `reconciled_record`
 Stores reconciliation results.
 | Column             | Type        | Description                                 |
@@ -59,6 +82,8 @@ Stores reconciliation results.
 | `amount_difference`| NUMERIC     | Difference between payment and settlement   |
 | `status`           | TEXT        | `'reconciled'` or `'unreconciled'`         |
 | `reconciled_at`    | TIMESTAMPTZ | Timestamp of reconciliation                 |
+
+---
 
 ## 📦 API Endpoints
 
@@ -90,6 +115,8 @@ Jun 8, 2025 10:23:05 PM PDT,18174059732,Order,1211455071067537800,13Z2Q8JWG710,,
 }
 ```
 
+---
+
 ### 📥 POST `/upload-settlement`
 Upload a **TSV file** for Settlements.
 - **Headers:**  
@@ -118,6 +145,8 @@ settlement-id	settlement-start-date	settlement-end-date	deposit-date	total-amoun
 }
 ```
 
+---
+
 ### 🔄 GET `/reconcile?limit=10`
 Triggers reconciliation between Payments and Settlements based on `order_id`.
 - **Optional Query Param:**
@@ -142,6 +171,8 @@ Triggers reconciliation between Payments and Settlements based on `order_id`.
 }
 ```
 
+---
+
 ### 📤 GET `/export-report?limit=50`
 Exports reconciliation report as a downloadable CSV.  
 🧾 Just paste this URL in the browser:
@@ -158,11 +189,15 @@ order_id,status,payment_total,settlement_total,amount_difference
 1211455071067537800,unreconciled,7.81,, 
 ```
 
+---
+
 ## ⚡ Optimizations for Large Data
 - Uses **COPY FROM STDIN** for bulk inserts (faster than batch inserts)  
 - **Readable Stream Buffers** used to avoid memory overflow  
 - Only **first 5 rows** returned as preview (rest handled silently)  
 - File is **deleted** after successful parsing to save space
+
+---
 
 ## 🧪 Test Uploads Easily
 You can test endpoints with **Postman**, **Thunder Client**, or cURL.
@@ -171,6 +206,8 @@ curl -X POST http://localhost:3000/upload-payment \
   -F "file=@/full/path/to/payment.csv" \
   -F "header=1"
 ```
+
+---
 
 ## 📁 Folder Structure
 ```
@@ -182,6 +219,8 @@ curl -X POST http://localhost:3000/upload-payment \
 ├── .env                    // Environment config
 ├── package.json
 ```
+
+---
 
 ## 👨‍💻 Author
 **Hariskumar S.**  
