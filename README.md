@@ -19,7 +19,7 @@ Due to the large size, **1000 sample records** each are included for both `recor
 - `reconciled_records_sample.sql`
 
 
-📁 Access all sample files and report here: [Google Drive Link](https://drive.google.com/file/d/1-xPHGAK4xZRKstPRugzKoSRmlEiGlCny/view?usp=sharing)
+📁 Access all sample files and report here: [Google Drive Link](https://drive.google.com/drive/folders/12CTZCZY3xvb2AKvuY-pXlWV92MT_BSs0?usp=drive_link)
 
 ---
 
