@@ -23,6 +23,12 @@ Due to the large size, **1000 sample records** each are included for both `recor
 
 ---
 
+## 📺 Explanation/Demo Video  
+Watch a full explanation/demonstration of the reconciliation workflow, including uploads, reconciliation, and CSV export:  
+👉 [**Watch Demo on Google Drive**](https://drive.google.com/file/d/12w2UHoV0_Dy7q6g-_lqZJhUlFIgGfUd-/view?usp=drive_link)
+
+---
+
 ## 🔗 API Endpoints
 
 | Method | Endpoint              | Description                            |
@@ -41,12 +47,6 @@ Due to the large size, **1000 sample records** each are included for both `recor
 - Reconciles payments and settlements by `order_id`  
 - Outputs reconciliation summary  
 - Exports the final report directly as downloadable CSV
-
----
-
-## 📺 Explanation/Demo Video  
-Watch a full explanation/demonstration of the reconciliation workflow, including uploads, reconciliation, and CSV export:  
-👉 [**Watch Demo on Google Drive**](https://drive.google.com/file/d/12w2UHoV0_Dy7q6g-_lqZJhUlFIgGfUd-/view?usp=drive_link)
 
 ---
 
