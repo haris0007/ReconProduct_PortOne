@@ -3,6 +3,26 @@ This is a high-performance CSV reconciliation server built with **Node.js**, **E
 
 ---
 
+## 📊 Data Summary & 📁 Sample Files
+
+- ✅ Payment: 402,123 records  
+- ✅ Settlement: 1,045,380 records  
+- 📦 **Total Records (in `records` table)**: 1,447,503 records
+- ✅ Reconciled: 301,634 records **(in `reconciled_records` table processed from `records`)**
+
+Due to the large size, **1000 sample records** each are included for both `records` and `reconciled_records` as samples :
+
+- `report.csv`
+- `records.sql`
+- `records_sample.sql`
+- `reconciled_records.sql`
+- `reconciled_records_sample.sql`
+
+
+📁 Access all sample files and report here: [Google Drive Link](https://drive.google.com/file/d/1-xPHGAK4xZRKstPRugzKoSRmlEiGlCny/view?usp=sharing)
+
+---
+
 ## 🔗 API Endpoints
 
 | Method | Endpoint              | Description                            |
