@@ -69,7 +69,7 @@ Stores all uploaded payment and settlement entries.
 
 ---
 
-### Table: `reconciled_record`
+### Table: `reconciled_records`
 Stores reconciliation results.
 | Column             | Type        | Description                                 |
 |--------------------|-------------|---------------------------------------------|
@@ -77,9 +77,9 @@ Stores reconciliation results.
 | `order_id`         | TEXT        | Unique order ID                             |
 | `payment_ids`      | BIGINT[]    | Matched payment record IDs                  |
 | `settlement_ids`   | BIGINT[]    | Matched settlement record IDs               |
-| `payment_total`    | NUMERIC     | Total payment amount                        |
-| `settlement_total` | NUMERIC     | Total settlement amount                     |
-| `amount_difference`| NUMERIC     | Difference between payment and settlement   |
+| `payments_total`    | NUMERIC     | Total payment amount                        |
+| `settlements_total` | NUMERIC     | Total settlement amount                     |
+| `difference`       | NUMERIC     | Difference between payment and settlement   |
 | `status`           | TEXT        | `'reconciled'` or `'unreconciled'`         |
 | `reconciled_at`    | TIMESTAMPTZ | Timestamp of reconciliation                 |
 
@@ -161,9 +161,9 @@ Triggers reconciliation between Payments and Settlements based on `order_id`.
       "order_id": "1211397397571528200",
       "payment_ids": [1],
       "settlement_ids": [2],
-      "payment_total": 14.9,
-      "settlement_total": 14.9,
-      "amount_difference": 0,
+      "payments_total": 14.9,
+      "settlements_total": 14.9,
+      "difference": 0,
       "status": "reconciled"
     },
     ...first 10 rows...
@@ -184,7 +184,7 @@ http://localhost:3000/export-report
 
 **Sample CSV Output:**
 ```csv
-order_id,status,payment_total,settlement_total,amount_difference
+order_id,status,payments_total,settlements_total,difference
 1211397397571528200,reconciled,14.9,14.9,0
 1211455071067537800,unreconciled,7.81,, 
 ```

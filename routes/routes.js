@@ -195,14 +195,14 @@ Router.get("/reconcile", async (req, res) => {
 
     try {
         await client.query(`
-            CREATE TABLE IF NOT EXISTS reconciled_record (
+            CREATE TABLE IF NOT EXISTS reconciled_records (
                 id BIGSERIAL PRIMARY KEY,
                 order_id TEXT NOT NULL,
                 payment_ids BIGINT[],
                 settlement_ids BIGINT[],
-                payment_total NUMERIC,
-                settlement_total NUMERIC,
-                amount_difference NUMERIC,
+                payments_total NUMERIC,
+                settlements_total NUMERIC,
+                difference NUMERIC,
                 status TEXT CHECK (status IN ('reconciled','unreconciled')) NOT NULL,
                 reconciled_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             );
@@ -215,26 +215,26 @@ Router.get("/reconcile", async (req, res) => {
                 COALESCE(p.order_id, s.order_id) AS order_id,
                 p.payment_ids,
                 s.settlement_ids,
-                p.payment_total,
-                s.settlement_total,
+                p.payments_total,
+                s.settlements_total,
                 CASE
-                    WHEN p.payment_total IS NOT NULL AND s.settlement_total IS NOT NULL
-                        THEN ROUND(p.payment_total - s.settlement_total, 2)
+                    WHEN p.payments_total IS NOT NULL AND s.settlements_total IS NOT NULL
+                        THEN ROUND(p.payments_total - s.settlements_total, 2)
                     ELSE NULL
-                END AS amount_difference,
+                END AS difference,
                 CASE
                     WHEN p.payment_ids IS NULL OR s.settlement_ids IS NULL
                         THEN 'unreconciled'
                     ELSE 'reconciled'
                 END AS status
             FROM (
-                SELECT order_id, ARRAY_AGG(id) AS payment_ids, SUM(total_amount) AS payment_total
+                SELECT order_id, ARRAY_AGG(id) AS payment_ids, SUM(total_amount) AS payments_total
                 FROM records
                 WHERE source = 'payments'
                 GROUP BY order_id
             ) p
             FULL OUTER JOIN (
-                SELECT order_id, ARRAY_AGG(id) AS settlement_ids, SUM(total_amount) AS settlement_total
+                SELECT order_id, ARRAY_AGG(id) AS settlement_ids, SUM(total_amount) AS settlements_total
                 FROM records
                 WHERE source = 'settlements'
                 GROUP BY order_id
@@ -253,13 +253,13 @@ Router.get("/reconcile", async (req, res) => {
         const buffer = new Readable({ read() {} });
 
         copyStream = client.query(from(`
-            COPY reconciled_record (
+            COPY reconciled_records (
                 order_id,
                 payment_ids,
                 settlement_ids,
-                payment_total,
-                settlement_total,
-                amount_difference,
+                payments_total,
+                settlements_total,
+                difference,
                 status
             ) FROM STDIN WITH (FORMAT csv, DELIMITER ',', NULL '', ESCAPE '\\')
         `));
@@ -276,9 +276,9 @@ Router.get("/reconcile", async (req, res) => {
                 escapeCSV(r.order_id),
                 r.payment_ids ? escapeCSV(formatPgArray(r.payment_ids)) : "", 
                 r.settlement_ids ? escapeCSV(formatPgArray(r.settlement_ids)) : "",
-                r.payment_total ?? "",
-                r.settlement_total ?? "",
-                r.amount_difference ?? "",
+                r.payments_total ?? "",
+                r.settlements_total ?? "",
+                r.difference ?? "",
                 escapeCSV(r.status)
             ].join(",") + "\n";
 
@@ -334,10 +334,10 @@ Router.get("/export-report", async (req, res) => {
                 SELECT
                     order_id,
                     status,
-                    payment_total,
-                    settlement_total,
-                    amount_difference
-                FROM reconciled_record
+                    payments_total,
+                    settlements_total,
+                    difference
+                FROM reconciled_records
                 ${limit > 0 ? `LIMIT ${limit}` : ""}
             )
             TO STDOUT WITH CSV HEADER
